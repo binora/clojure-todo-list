@@ -30,6 +30,6 @@
 (defroutes todo-routes
   (context "/todo" []
            (POST "/create" request (create-todo request))
-           (POST "/update" request (update-todo request))))
+           (POST "/complete" request (update-todo request))))
 
 
