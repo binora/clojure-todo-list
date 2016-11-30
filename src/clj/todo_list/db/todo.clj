@@ -1,9 +1,7 @@
 (ns todo-list.db.todo
-    (:require [monger.core :as mg]
-              [monger.collection :as mc]
+    (:require [monger.collection :as mc]
               [todo-list.db.core :refer [db]]
               [monger.operators :refer :all]
-              [mount.core :refer [defstate]]
               [todo-list.utils :as utils]
               [clj-time.core :as t]
               [todo-list.constants :as constants]

@@ -11,7 +11,6 @@
   (let [text (get-in request [:params :text])
         user (:user request)
         result (todo-model/create-todo user text)]
-    (println (:_id result))
     (layout/render-json {:status true
                          :message "TODO created successfully"
                          :todo-id (str (:_id result))})))

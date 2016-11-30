@@ -24,7 +24,8 @@
 
 
 (defn get-user-by-token [token]
-  (mc/find-one-as-map db "users" {:token token}))
+  (let [user  (mc/find-one-as-map db "users" {:token token})]
+    (assoc user :_id (str (:_id user)))))
 
 (defn valid-password? [name password]
   (let [encp (utils/encrypt-password password)

@@ -19,16 +19,17 @@
                      :response-format :json
                       :handler #(swap! app-state assoc :todos (:todos %))
                      :keywords? true}))
-(defn on-create! [id text]
-  (swap! app-state update-in [:todos] merge {:text text :_id id})
-  (swap! app-state assoc-in [:current-todo-input] ""))
 
-(defn create-todo []
+
+(defn on-create! [id text]
+  (swap! app-state update-in [:todos] merge {:text text :_id id}))
+
+(defn create-todo [value]
   (POST "/todo/create" {:params
                           {:token "pbjysjlpxitmaqji"
-                           :text (:current-todo-input @app-state)}
+                           :text value}
                          :response-format :json
-                         :handler #(on-create! (:todo-id %) (:current-todo-input @app-state))
+                         :handler #(on-create! (:todo-id %) value)
                          :keywords? true}))
 
 (defn todo-list [todos]
@@ -38,12 +39,17 @@
         todos)])
 
 
-(defn todo-input [value]
-    [:div#new-todo
-     [:input#todo-input {:placeholder "Create new todo"
-                         :value value
-                         :on-change #(swap! app-state assoc-in [:current-todo-input] (-> % .-target .-value))}]
-     [:button#new-todo-button {:on-click create-todo} "Create"]])
+(defn todo-input []
+  (let [value (r/atom "")]
+    (fn []
+      [:div#new-todo
+       [:input#todo-input {:placeholder "Create new todo"
+                           :value @value
+                           :on-change (fn [e]
+                                        (let [val (-> e .-target .-value)]
+                                          (println val)
+                                          (reset! value val)))}]
+       [:button#new-todo-button {:on-click #(do  (create-todo @value) (reset! value "") )} "Create"]])))
 
 (defn header []
   [:div#app-header {}
@@ -55,7 +61,7 @@
   (fn []
     [:div#app
      [header]
-     [todo-input (:current-todo-input @app-state)]
+     [todo-input]
      [todo-list (:todos @app-state)]]))
 
 
