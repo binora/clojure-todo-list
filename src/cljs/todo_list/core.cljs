@@ -9,55 +9,39 @@
             [ajax.core :refer [GET POST]])
   (:import goog.History))
 
-(defn nav-link [uri title page collapsed?]
-  [:li.nav-item
-   {:class (when (= page (session/get :page)) "active")}
-   [:a.nav-link
-    {:href uri
-     :on-click #(reset! collapsed? true)} title]])
+(def todos [{:text "first"
+             :_id "1"}
+            {:text "second"
+             :_id "2"}
+            {:text "third"
+             :_id "3"}])
 
-(defn navbar []
-  (let [collapsed? (r/atom true)]
-    (fn []
-      [:nav.navbar.navbar-dark.bg-primary
-       [:button.navbar-toggler.hidden-sm-up
-        {:on-click #(swap! collapsed? not)} "☰"]
-       [:div.collapse.navbar-toggleable-xs
-        (when-not @collapsed? {:class "in"})
-        [:a.navbar-brand {:href "#/"} "todo-list"]
-        [:ul.nav.navbar-nav
-         [nav-link "#/" "Home" :home collapsed?]
-         [nav-link "#/about" "About" :about collapsed?]]]])))
+(def app-state
+  (r/atom {:todos todos}))
 
-(defn about-page []
-  [:div.container
-   [:div.row
-    [:div.col-md-12
-     "this is the story of todo-list... work in progress"]]])
+(defn todo-list [todos]
+  [:ul#todo-list
+   (map (fn [todo]
+          [:li {:key (:_id todo)} (:text todo)])
+        todos)])
 
-(defn home-page []
-  [:div.container
-   (when-let [docs (session/get :docs)]
-     [:div.row>div.col-sm-12
-      [:div {:dangerouslySetInnerHTML
-             {:__html (md->html docs)}}]])])
+(defn todo-input []
+  [:div#new-todo
+   [:input#todo-input {:placeholder "Create new todo"}]
+   [:button#new-todo-button "Create"]])
 
-(def pages
-  {:home #'home-page
-   :about #'about-page})
+(defn header []
+  [:div#app-header {}
+    [:h4  "Welcome to your Todo Tracker"]])
 
-(defn page []
-  [(pages (session/get :page))])
 
-;; -------------------------
-;; Routes
-(secretary/set-config! :prefix "#")
+(defn app []
+  [:div#app
+   [header]
+   [todo-input]
+   [todo-list (:todos @app-state)]])
 
-(secretary/defroute "/" []
-  (session/put! :page :home))
 
-(secretary/defroute "/about" []
-  (session/put! :page :about))
 
 ;; -------------------------
 ;; History
@@ -72,15 +56,12 @@
 
 ;; -------------------------
 ;; Initialize app
-(defn fetch-docs! []
-  (GET "/docs" {:handler #(session/put! :docs %)}))
+
 
 (defn mount-components []
-  (r/render [#'navbar] (.getElementById js/document "navbar"))
-  (r/render [#'page] (.getElementById js/document "app")))
+  (r/render [#'app] (.getElementById js/document "container")))
 
 (defn init! []
   (load-interceptors!)
-  (fetch-docs!)
   (hook-browser-navigation!)
   (mount-components))
