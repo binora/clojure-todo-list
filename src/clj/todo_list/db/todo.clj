@@ -19,7 +19,8 @@
                            :status (:PENDING constants/todo-status)})))
 
 (defn get-todos-by-user [user-id]
-  (mc/find-one-as-map db "todos" {:user-id user-id}))
+  (let [todos (mc/find-maps db "todos" {:user-id user-id} {:text :_id})]
+    (map #(assoc % :_id (str (:_id %))) todos)))
 
 (defn update-todo-status [todo-id new-status]
   (let [now (utils/serialize-date (t/now))]

@@ -24,11 +24,18 @@
     (layout/render-json {:status true
                          :message "Todo updated successfully"})))
 
+(defn get-all-todos
+  [request]
+  (let [user-id (get-in request [:user :_id])
+        result (todo-model/get-todos-by-user user-id)]
+    (layout/render-json {:status true
+                         :todos result})))
 
 
 
 (defroutes todo-routes
   (context "/todo" []
+           (GET  "/all" request (get-all-todos request))
            (POST "/create" request (create-todo request))
            (POST "/complete" request (update-todo request))))
 
