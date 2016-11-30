@@ -17,7 +17,8 @@
              :_id "3"}])
 
 (def app-state
-  (r/atom {:todos todos}))
+  (r/atom {:todos todos
+           :current-todo-input ""}))
 
 (defn todo-list [todos]
   [:ul#todo-list
@@ -25,10 +26,16 @@
           [:li {:key (:_id todo)} (:text todo)])
         todos)])
 
-(defn todo-input []
-  [:div#new-todo
-   [:input#todo-input {:placeholder "Create new todo"}]
-   [:button#new-todo-button "Create"]])
+(defn on-create! []
+  (swap! app-state update-in [:todos] merge {:text (:current-todo-input @app-state) :_id (rand 100)})
+  (swap! app-state assoc-in [:current-todo-input] ""))
+
+(defn todo-input [value]
+    [:div#new-todo
+     [:input#todo-input {:placeholder "Create new todo"
+                         :value value
+                         :on-change #(swap! app-state assoc-in [:current-todo-input] (-> % .-target .-value))}]
+     [:button#new-todo-button {:on-click on-create!} "Create"]])
 
 (defn header []
   [:div#app-header {}
@@ -38,7 +45,7 @@
 (defn app []
   [:div#app
    [header]
-   [todo-input]
+   [todo-input (:current-todo-input @app-state)]
    [todo-list (:todos @app-state)]])
 
 
