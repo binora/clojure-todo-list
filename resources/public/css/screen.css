@@ -5,6 +5,9 @@ html, body : {
 #container {
   display : flex;
   justify-content : center;
+  height : 100vh;
+
+
 }
 #todo-component {
   display : flex;
@@ -18,4 +21,34 @@ html, body : {
 }
 #todo-list {
   margin-top : 20px;
+}
+.login-div {
+  display : flex;
+  height : 100%;
+  width : 100%;
+  justify-content : center;
+}
+
+#login-component {
+  margin-top : 50px;
+  display : flex;
+  flex-direction : column;
+  height : 100%;
+  width : 25%;
+}
+
+#login-header {
+  align-self : center;
+  padding : 5px;
+  margin-bottom : 10px;
+}
+
+#login-name {
+  padding : 5px;
+  margin-bottom : 10px;
+}
+
+#login-password {
+  padding : 5px;
+  margin-bottom : 10px;
 }

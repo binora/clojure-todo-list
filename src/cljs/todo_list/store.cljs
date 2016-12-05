@@ -3,4 +3,5 @@
 
 (defonce app-state
   (r/atom {:todos []
-           :current-todo-input ""}))
+           :current-todo-input ""
+           :token ""}))

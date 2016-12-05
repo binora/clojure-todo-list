@@ -23,6 +23,9 @@
 (secretary/defroute "/" []
   (session/put! :current-page login-component))
 
+(secretary/defroute "/todos" []
+  (session/put! :current-page todo-component))
+
 ;; -------------------------
 ;; History
 ;; must be called after routes have been defined

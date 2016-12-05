@@ -6,7 +6,7 @@
 
 (defn fetch-todos []
   (GET "/todo/all" {:params
-                        {:token "pbjysjlpxitmaqji"}
+                        {:token (:token @app-state)}
                      :response-format :json
                       :handler #(swap! app-state assoc :todos (:todos %))
                      :keywords? true}))
