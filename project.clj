@@ -99,7 +99,9 @@
                       :output-dir "target/cljsbuild/public/js/out"
                       :source-map true
                       :optimizations :none
-                      :pretty-print true}}}}
+                      :pretty-print true}
+                     :figwheel true
+                     }}}
 
 
                   :doo {:build "test"}

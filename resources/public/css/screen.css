@@ -6,7 +6,7 @@ html, body : {
   display : flex;
   justify-content : center;
 }
-#app  {
+#todo-component {
   display : flex;
   flex-direction : column;
   justify-content : flex-start;
