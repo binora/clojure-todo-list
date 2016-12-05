@@ -22,33 +22,42 @@ html, body : {
 #todo-list {
   margin-top : 20px;
 }
-.login-div {
+.login-div,.reg-div {
   display : flex;
+  flex-direction : column;
+  align-items : center;
   height : 100%;
   width : 100%;
-  justify-content : center;
 }
 
-#login-component {
+#login-component,#reg-component {
   margin-top : 50px;
   display : flex;
   flex-direction : column;
-  height : 100%;
-  width : 25%;
+  width : 30%;
+/*   border : solid green 5px; */
+  padding : 5px;
 }
 
-#login-header {
+#login-header,#reg-header {
   align-self : center;
   padding : 5px;
   margin-bottom : 10px;
 }
 
-#login-name {
+#login-name,#login-password,#login-confirm-password {
   padding : 5px;
   margin-bottom : 10px;
 }
 
-#login-password {
-  padding : 5px;
-  margin-bottom : 10px;
+#login-button {
+  width : 100px;
+  align-self : center;
 }
+
+#signup-button {
+  width : 100px;
+  height : 30px;
+}
+
+

@@ -9,6 +9,7 @@
             [ajax.core :refer [GET POST]]
             [todo-list.store :refer [app-state]]
             [todo-list.todo-page :refer [todo-component]]
+            [todo-list.reg-page :refer [reg-component]]
             [todo-list.login-page :refer [login-component]] )
   (:import goog.History))
 
@@ -25,6 +26,9 @@
 
 (secretary/defroute "/todos" []
   (session/put! :current-page todo-component))
+
+(secretary/defroute "/signup" []
+  (session/put! :current-page reg-component))
 
 ;; -------------------------
 ;; History

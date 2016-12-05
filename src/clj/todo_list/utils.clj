@@ -11,7 +11,7 @@
 (defn generate-random-token []
   "Generates of a random token of length 16"
   (let [possible-chars (map char (range 97 123))]
-    (apply str (take 16 (repeatedly (rand-nth possible-chars))))))
+    (apply str (take 16 (repeatedly #(rand-nth possible-chars))))))
 
 (defn serialize-date [date]
   (f/unparse db-formatter date))

@@ -6,13 +6,17 @@
             [todo-list.utils :as utils]))
 
 (defn create-user
-  []
-  (let [user {:name "binny2"
-              :password (utils/encrypt-password "hello")
+  [name password]
+  (let [user {:name name
+              :password (utils/encrypt-password password)
               :token (utils/generate-random-token)}]
-    (user-model/create-user user)
-    (layout/render-json {:status true
-                    :body "DONE"})))
+    (if (user-model/username-exists? name)
+      (layout/render-json {:status false
+                           :message "User name already exists!"})
+      (do
+        (let [result (user-model/create-user user)]
+        (layout/render-json {:status true
+                              :user result}))))))
 
 
 (defn login-user [name password]
@@ -26,4 +30,5 @@
 
 (defroutes auth-routes
   (context "/auth" []
+  (POST "/create" [name password] (create-user name password))
   (POST "/login" [name password] (login-user name password))))

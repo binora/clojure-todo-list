@@ -15,39 +15,32 @@
 
 (defn handle-login
   [data]
-  (println data)
   (let [status (:status data)
         user (:user data)]
     (if (false? status)
         false
         (do
-          (println (:token user))
           (swap! app-state assoc :token (:token user))
           (dispatch! "/todos")))))
 
 
-
-
-
 (defn login-component []
-  (let [local-state (r/atom {:username ""
-                             :password ""})]
-
+  (let [username (r/atom "")
+        password (r/atom "")]
     (fn []
       [:div.login-div {}
         [:form#login-component {:action "#"}
-         [:h2#login-header "Login"]
+         [:h2#login-header "Todo Tracker"]
          [:input#login-name {:placeholder "username"
-                             :value (:username @local-state)
-                             :on-change #(swap! local-state assoc :username (-> % .-target .-value))}]
+                             :value @username
+                             :on-change #(reset! username (-> % .-target .-value))}]
          [:input#login-password {:placeholder "password"
                                  :type "password"
-                                 :value (:password @local-state)
-                                 :on-change #(swap! local-state assoc :password (-> % .-target .-value))}]
-         [:button#login-button {:on-click #(do (request-login (:username @local-state)
-                                                              (:password @local-state)
-                                                               handle-login)
-                                             (reset! local-state {:username "" :password ""}))}
-          "Go!"]]])))
-
-
+                                 :value @password
+                                 :on-change #(reset! password (-> % .-target .-value))}]
+         [:button#login-button {:on-click #(do (request-login @username @password handle-login)
+                                               (reset! username "")
+                                               (reset! password ""))}
+          "login"]]
+       [:button#signup-button {:on-click #(dispatch! "/signup")}
+        "signup"]])))
