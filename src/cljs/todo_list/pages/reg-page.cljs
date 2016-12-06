@@ -19,11 +19,9 @@
 (defn handle-reg
   [data]
   (when (utils/check-response-sanity data)
-      (let [user (:user data)]
-         (do
-           (println user)
-           (swap! app-state assoc :token (:token user))
-           (dispatch! "/todos")))))
+    (let [user (:user data)]
+      (swap! app-state assoc :token (:token user))
+      (dispatch! "/todos"))))
 
 
 

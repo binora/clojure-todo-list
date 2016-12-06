@@ -3,6 +3,7 @@
             [compojure.core :refer [defroutes GET POST context]]
             [ring.util.http-response :as response]
             [todo-list.db.users :as user-model]
+            [todo-list.validation :refer [validate-login]]
             [todo-list.utils :as utils]))
 
 (defn create-user

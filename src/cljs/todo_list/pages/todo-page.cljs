@@ -6,21 +6,21 @@
 
 (defn fetch-todos []
   (GET "/todo/all" {:params
-                        {:token (:token @app-state)}
-                     :response-format :json
-                      :handler #(swap! app-state assoc :todos (:todos %))
-                     :keywords? true}))
+                    {:token (:token @app-state)}
+                    :response-format :json
+                    :handler #(swap! app-state assoc :todos (:todos %))
+                    :keywords? true}))
 
 (defn on-create! [id text]
-  (swap! app-state update-in [:todos] merge {:text text :_id id}))
+  (swap! app-state update-in [:todos] conj {:text text :_id id}))
 
 (defn create-todo [value callback]
   (POST "/todo/create" {:params
-                          {:token "pbjysjlpxitmaqji"
-                           :text value}
-                         :response-format :json
-                         :handler #(callback (:todo-id %) value)
-                         :keywords? true}))
+                        {:token "pbjysjlpxitmaqji"
+                         :text value}
+                        :response-format :json
+                        :handler #(callback (:todo-id %) value)
+                        :keywords? true}))
 
 (defn todo-list [todos]
   [:ul#todo-list
@@ -37,13 +37,14 @@
                            :value @value
                            :on-change (fn [e]
                                         (let [val (-> e .-target .-value)]
-                                          (println val)
                                           (reset! value val)))}]
-       [:button#new-todo-button {:on-click #(do  (create-todo @value on-create!) (reset! value "") )} "Create"]])))
+       [:button#new-todo-button {:on-click #(do
+                                              (create-todo @value on-create!)
+                                              (reset! value "") )} "Create"]])))
 
 (defn header []
   [:div#app-header {}
-    [:h4  "Welcome to your Todo Tracker"]])
+   [:h4  "Welcome to your Todo Tracker"]])
 
 
 (defn todo-component []
