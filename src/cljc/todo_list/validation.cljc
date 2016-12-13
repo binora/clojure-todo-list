@@ -4,10 +4,9 @@
 
 
 
-(defn validate-login
-  [user]
+(defn validate-login  [user]
   (let [error-map (first (b/validate user
-                               :name v/required
-                               :password v/required))]
+                                     :name v/required
+                                     :password v/required))]
     (vals error-map)))
 

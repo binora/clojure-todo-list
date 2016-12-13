@@ -42,6 +42,7 @@
   :main todo-list.core
 
   :plugins [[lein-cprop "1.0.1"]
+            [lein-autoexpect "1.9.0"]
             [lein-expectations "0.0.7"]
             [lein-cljsbuild "1.1.4"]]
   :clean-targets ^{:protect false}
@@ -75,6 +76,7 @@
              :resource-paths ["env/prod/resources"]}
 
    :dev           [:project/dev :profiles/dev]
+   :binny         [:project/dev :profiles/binny]
    :test          [:project/dev :project/test :profiles/test]
 
    :project/dev  {:dependencies [[prone "1.1.4"]
@@ -125,4 +127,5 @@
 
                   }
    :profiles/dev {}
+   :profiles/binny {}
    :profiles/test {}})
