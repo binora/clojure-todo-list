@@ -30,6 +30,7 @@
                  [digest "1.4.5"]
                  [clj-time "0.12.2"]
                  [secretary "1.2.3"]
+                 [expectations "2.1.8"]
                  [selmer "1.10.0"]]
 
   :min-lein-version "2.0.0"
@@ -41,6 +42,7 @@
   :main todo-list.core
 
   :plugins [[lein-cprop "1.0.1"]
+            [lein-expectations "0.0.7"]
             [lein-cljsbuild "1.1.4"]]
   :clean-targets ^{:protect false}
   [:target-path [:cljsbuild :builds :app :compiler :output-dir] [:cljsbuild :builds :app :compiler :output-to]]
