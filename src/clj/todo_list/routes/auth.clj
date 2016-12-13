@@ -21,13 +21,17 @@
 
 
 (defn login-user [name password]
-  (let [user (user-model/valid-password? name password)]
-    (if (nil? user)
+  (let [user (user-model/valid-password? name password)
+        error-map (validate-login {:name name :password password})]
+    (if (empty? error-map)
+      (if (nil? user)
+        (layout/render-json {:status false
+                        :message "unknown user"})
+        (layout/render-json {:status true
+                        :message "User logged in successfully"
+                        :user (select-keys user [:token :name])}))
       (layout/render-json {:status false
-                      :message "unknown user"})
-      (layout/render-json {:status true
-                      :message "User logged in successfully"
-                      :user (select-keys user [:token :name])}))))
+                           :message "Missing parameters"}))))
 
 (defroutes auth-routes
   (context "/auth" []

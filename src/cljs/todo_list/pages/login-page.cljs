@@ -22,15 +22,16 @@
       false
       (do
         (swap! app-state assoc :token (:token user))
-        (dispatch! "/todos")))))
+        (dispatch! "/todos/1")))))
 
 (defn on-login-click
   [username password handle-login]
   (let [error-map (validate-login {:name username
                                    :password password})]
-    (if (empty? error-map)
-      (request-login username password handle-login)
-      (js/console.log error-map))))
+    (request-login username password handle-login)))
+;;     (if (empty? error-map)
+
+;;       (println  error-map))))
 
 
 

@@ -47,7 +47,8 @@
    [:h4  "Welcome to your Todo Tracker"]])
 
 
-(defn todo-component []
+(defn todo-component [id]
+  (println id)
   (fetch-todos)
   (fn []
     [:div#todo-component
